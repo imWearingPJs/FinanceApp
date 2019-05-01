@@ -21,6 +21,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     let salaryLabel = UILabel()
     let salarySlider = UISlider()
     
+    let someFormatter: NumberFormatter = {
+        let temp = NumberFormatter()
+        temp.numberStyle = .currency
+        return temp
+    }()
+    
     override func viewWillAppear(_ animated: Bool) { //hides the tab bar for this map view
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -64,7 +70,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         self.view.addSubview(salaryLabel)
         salaryLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         salaryLabel.layer.cornerRadius = cornerRadius
-        salaryLabel.text = "$0"
         salaryLabel.textAlignment = .center
         salaryLabel.widthAnchor == fieldWidth
         salaryLabel.heightAnchor == fieldHeight
@@ -81,7 +86,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salarySlider.maximumValue = 1_000_000
         salarySlider.value = 20_000
         salarySlider.addTarget(self, action: #selector(sliderValueDidChange(sender:)),for: .valueChanged)
-        salaryLabel.text = "\(salarySlider.value)"
+//        salaryLabel.text = "\(salarySlider.value)"
+        salaryLabel.text = someFormatter.string(from: NSNumber(value: salarySlider.value))
         
         self.view.addSubview(salaryField)
         salaryField.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
@@ -142,7 +148,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     
     @objc func sliderValueDidChange(sender: UISlider!) {
         print("salary value: \(sender.value)")
-        salaryLabel.text = "\(sender.value)"
+//        salaryLabel.text = "\(sender.value)"
+        salaryLabel.text = someFormatter.string(from: NSNumber(value: salarySlider.value))
     }
     
     @objc func calcTapped(sender: UIButton) {
