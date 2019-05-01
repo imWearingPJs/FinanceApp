@@ -18,6 +18,9 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     let estimateButton = UIButton()
     let resetButton = UIButton()
     
+    let salaryLabel = UILabel()
+    let salarySlider = UISlider()
+    
     override func viewWillAppear(_ animated: Bool) { //hides the tab bar for this map view
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -58,6 +61,28 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         estimatedMortgage.centerXAnchor == self.view.centerXAnchor
         estimatedMortgage.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
         
+        self.view.addSubview(salaryLabel)
+        salaryLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        salaryLabel.layer.cornerRadius = cornerRadius
+        salaryLabel.text = "$0"
+        salaryLabel.textAlignment = .center
+        salaryLabel.widthAnchor == fieldWidth
+        salaryLabel.heightAnchor == fieldHeight
+        salaryLabel.centerXAnchor == self.view.centerXAnchor
+        salaryLabel.topAnchor == estimatedMortgage.bottomAnchor + 25
+        
+        self.view.addSubview(salarySlider)
+        salarySlider.widthAnchor == fieldWidth
+        salarySlider.heightAnchor == fieldHeight
+        salarySlider.centerXAnchor == self.view.centerXAnchor
+        salarySlider.topAnchor == salaryLabel.bottomAnchor + 25
+        salarySlider.isContinuous = true
+        salarySlider.minimumValue = 0
+        salarySlider.maximumValue = 1_000_000
+        salarySlider.value = 20_000
+        salarySlider.addTarget(self, action: #selector(sliderValueDidChange(sender:)),for: .valueChanged)
+        salaryLabel.text = "\(salarySlider.value)"
+        
         self.view.addSubview(salaryField)
         salaryField.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         salaryField.placeholder = "Yearly Salary (pre tax)"
@@ -67,7 +92,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salaryField.widthAnchor == fieldWidth
         salaryField.heightAnchor == fieldHeight
         salaryField.centerXAnchor == self.view.centerXAnchor
-        salaryField.topAnchor == estimatedMortgage.bottomAnchor + 25
+        salaryField.topAnchor == salarySlider.bottomAnchor + 25
         
         self.view.addSubview(carPaymentField)
         carPaymentField.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
@@ -113,6 +138,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         resetButton.layer.cornerRadius = 5
         resetButton.addTarget(self, action: #selector(resetTapped(sender:)), for: .touchUpInside)
         
+    }
+    
+    @objc func sliderValueDidChange(sender: UISlider!) {
+        print("salary value: \(sender.value)")
+        salaryLabel.text = "\(sender.value)"
     }
     
     @objc func calcTapped(sender: UIButton) {
