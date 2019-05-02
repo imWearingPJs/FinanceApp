@@ -13,6 +13,8 @@
 		E18BACA52279117C00BD6FEC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E18BACA42279117C00BD6FEC /* ViewController.swift */; };
 		E18BACAA2279117E00BD6FEC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E18BACA92279117E00BD6FEC /* Assets.xcassets */; };
 		E18BACAD2279117E00BD6FEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E18BACAB2279117E00BD6FEC /* LaunchScreen.storyboard */; };
+		E1AE8FA4227A684400B66EDB /* CustomSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AE8FA3227A684400B66EDB /* CustomSlider.swift */; };
+		E1AE8FA6227A6D5700B66EDB /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1AE8FA5227A6D5700B66EDB /* Formatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		E18BACA92279117E00BD6FEC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E18BACAC2279117E00BD6FEC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E18BACAE2279117E00BD6FEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1AE8FA3227A684400B66EDB /* CustomSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSlider.swift; sourceTree = "<group>"; };
+		E1AE8FA5227A6D5700B66EDB /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,10 +84,12 @@
 			children = (
 				E18BACA22279117C00BD6FEC /* AppDelegate.swift */,
 				E18BACA42279117C00BD6FEC /* ViewController.swift */,
+				E1AE8FA3227A684400B66EDB /* CustomSlider.swift */,
 				E18BACA92279117E00BD6FEC /* Assets.xcassets */,
 				E18BACAB2279117E00BD6FEC /* LaunchScreen.storyboard */,
 				E18BACAE2279117E00BD6FEC /* Info.plist */,
 				E124BE3522791EFB0054502E /* UILabel+extension.swift */,
+				E1AE8FA5227A6D5700B66EDB /* Formatter.swift */,
 			);
 			path = KozyFinance;
 			sourceTree = "<group>";
@@ -209,7 +215,9 @@
 			files = (
 				E18BACA52279117C00BD6FEC /* ViewController.swift in Sources */,
 				E18BACA32279117C00BD6FEC /* AppDelegate.swift in Sources */,
+				E1AE8FA6227A6D5700B66EDB /* Formatter.swift in Sources */,
 				E124BE3622791EFB0054502E /* UILabel+extension.swift in Sources */,
+				E1AE8FA4227A684400B66EDB /* CustomSlider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
