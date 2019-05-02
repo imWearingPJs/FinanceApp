@@ -30,9 +30,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     let additionalPaymentValueLabel = UILabel()
     let additionalPaymentSlider = CustomSlider()
     
+    let interestRateTitle = UILabel()
+    let interestRateLabel = UILabel()
+    let interestRateSlider = CustomSlider()
+    
+    let lengthTitle = UILabel()
+    let lengthLabel = UILabel()
+    let lengthSlider = CustomSlider()
+    
     let currencyFormatter: NumberFormatter = {
         let temp = NumberFormatter()
         temp.numberStyle = .currency
+        return temp
+    }()
+    
+    let percentFormatter: NumberFormatter = {
+        let temp = NumberFormatter()
+        temp.numberStyle = .percent
+        temp.minimumFractionDigits = 1
+        temp.maximumFractionDigits = 3
         return temp
     }()
     
@@ -175,6 +191,66 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentSlider.value = 0
         additionalPaymentSlider.addTarget(self, action: #selector(additionalPaymentsSliderValueDidChange(sender:)),for: .valueChanged)
         additionalPaymentValueLabel.text = (currencyFormatter.string(from: NSNumber(value: additionalPaymentSlider.value)) ?? "0.00") + " /mo"
+        
+        self.view.addSubview(interestRateTitle)
+        interestRateTitle.text = "Interest Rate"
+        interestRateTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        interestRateTitle.layer.cornerRadius = cornerRadius
+        interestRateTitle.textAlignment = .left
+        interestRateTitle.heightAnchor == fieldHeight
+        interestRateTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        interestRateTitle.topAnchor == additionalPaymentSlider.bottomAnchor + 25
+
+        self.view.addSubview(interestRateLabel)
+        interestRateLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        interestRateLabel.layer.cornerRadius = cornerRadius
+        interestRateLabel.textAlignment = .right
+        interestRateLabel.widthAnchor == valueWidth
+        interestRateLabel.heightAnchor == fieldHeight
+        interestRateLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        interestRateLabel.topAnchor == additionalPaymentSlider.bottomAnchor + 25
+
+        self.view.addSubview(interestRateSlider)
+        interestRateSlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        interestRateSlider.heightAnchor == fieldHeight
+        interestRateSlider.centerXAnchor == self.view.centerXAnchor
+        interestRateSlider.topAnchor == interestRateTitle.bottomAnchor - 25
+        interestRateSlider.isContinuous = true
+        interestRateSlider.minimumValue = 0.02
+        interestRateSlider.maximumValue = 0.15
+        interestRateSlider.value = 0
+        interestRateSlider.addTarget(self, action: #selector(interestRateSliderValueDidChange(sender:)),for: .valueChanged)
+        interestRateLabel.text = (percentFormatter.string(from: NSNumber(value: interestRateSlider.value)) ?? "0.00")
+        
+        self.view.addSubview(lengthTitle)
+        lengthTitle.text = "Length of Mortgage"
+        lengthTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        lengthTitle.layer.cornerRadius = cornerRadius
+        lengthTitle.textAlignment = .left
+        lengthTitle.heightAnchor == fieldHeight
+        lengthTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        lengthTitle.topAnchor == interestRateSlider.bottomAnchor + 25
+        
+        self.view.addSubview(lengthLabel)
+        lengthLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        lengthLabel.layer.cornerRadius = cornerRadius
+        lengthLabel.textAlignment = .right
+        lengthLabel.widthAnchor == valueWidth
+        lengthLabel.heightAnchor == fieldHeight
+        lengthLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        lengthLabel.topAnchor == interestRateSlider.bottomAnchor + 25
+
+        self.view.addSubview(lengthSlider)
+        lengthSlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        lengthSlider.heightAnchor == fieldHeight
+        lengthSlider.centerXAnchor == self.view.centerXAnchor
+        lengthSlider.topAnchor == lengthTitle.bottomAnchor - 25
+        lengthSlider.isContinuous = true
+        lengthSlider.minimumValue = 1
+        lengthSlider.maximumValue = 30
+        lengthSlider.value = 30
+        lengthSlider.addTarget(self, action: #selector(lengthSliderValueDidChange(sender:)),for: .valueChanged)
+        lengthLabel.text = String(Int(lengthSlider.value)) + " years"
     }
     
     //Sliders Did Change
@@ -191,7 +267,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let roundedValue = (round(sender.value / 25) * 25)
         let formattedValue = currencyFormatter.string(from: NSNumber(value: roundedValue)) ?? "0.00"
         let stringToDisplay = formattedValue
-        carPaymentSlider.value = roundedValue //setting the value of the slider here so it's not some precise number
+        carPaymentSlider.value = roundedValue
         carPaymentValueLabel.text = stringToDisplay + " /mo"
         calculateMorgate()
     }
@@ -200,8 +276,25 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let roundedValue = (round(sender.value / 25) * 25)
         let formattedValue = currencyFormatter.string(from: NSNumber(value: roundedValue)) ?? "0.00"
         let stringToDisplay = formattedValue
-        additionalPaymentSlider.value = roundedValue //setting the value of the slider here so it's not some precise number
+        additionalPaymentSlider.value = roundedValue
         additionalPaymentValueLabel.text = stringToDisplay + " /mo"
+        calculateMorgate()
+    }
+    
+    @objc func interestRateSliderValueDidChange(sender: UISlider!) {
+        let roundedValue = (round(sender.value / 0.00125) * 0.00125)
+        print("roundedValue: ", roundedValue)
+        let formattedValue = percentFormatter.string(from: NSNumber(value: roundedValue)) ?? "0.00"
+        print("formattedValue: ", formattedValue)
+        interestRateSlider.value = roundedValue
+        interestRateLabel.text = formattedValue
+        calculateMorgate()
+    }
+    
+    @objc func lengthSliderValueDidChange(sender: UISlider!) {
+        let roundedValue = (round(sender.value / 1) * 1)
+        lengthSlider.value = roundedValue
+        lengthLabel.text = String(Int(roundedValue)) + " years"
         calculateMorgate()
     }
     
