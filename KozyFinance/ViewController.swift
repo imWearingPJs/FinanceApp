@@ -18,10 +18,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     let estimateButton = UIButton()
     let resetButton = UIButton()
     
-    let salaryLabel = UILabel()
-    let salarySlider = UISlider()
+    let salaryNameLabel = UILabel()
+    let salaryValueLabel = UILabel()
+    var salaryValue = 25_000
+    let salarySlider = CustomSlider()
     
-    let someFormatter: NumberFormatter = {
+    let currencyFormatter: NumberFormatter = {
         let temp = NumberFormatter()
         temp.numberStyle = .currency
         return temp
@@ -53,6 +55,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         currencyFormatter.numberStyle = .currency
         
         let fieldWidth = self.view.widthAnchor * 0.8
+        let valueWidth = self.view.widthAnchor * 0.3
         let fieldHeight = 50.0
         let cornerRadius = CGFloat(5.0)
         let numKeyboard = UIKeyboardType.decimalPad
@@ -67,27 +70,36 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         estimatedMortgage.centerXAnchor == self.view.centerXAnchor
         estimatedMortgage.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
         
-        self.view.addSubview(salaryLabel)
-        salaryLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
-        salaryLabel.layer.cornerRadius = cornerRadius
-        salaryLabel.textAlignment = .center
-        salaryLabel.widthAnchor == fieldWidth
-        salaryLabel.heightAnchor == fieldHeight
-        salaryLabel.centerXAnchor == self.view.centerXAnchor
-        salaryLabel.topAnchor == estimatedMortgage.bottomAnchor + 25
+        self.view.addSubview(salaryNameLabel)
+        salaryNameLabel.text = "Income"
+        salaryNameLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        salaryNameLabel.layer.cornerRadius = cornerRadius
+        salaryNameLabel.textAlignment = .left
+        salaryNameLabel.widthAnchor == valueWidth
+        salaryNameLabel.heightAnchor == fieldHeight
+        salaryNameLabel.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        salaryNameLabel.topAnchor == estimatedMortgage.bottomAnchor + 25
+        
+        self.view.addSubview(salaryValueLabel)
+        salaryValueLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        salaryValueLabel.layer.cornerRadius = cornerRadius
+        salaryValueLabel.textAlignment = .right
+        salaryValueLabel.widthAnchor == valueWidth
+        salaryValueLabel.heightAnchor == fieldHeight
+        salaryValueLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        salaryValueLabel.topAnchor == estimatedMortgage.bottomAnchor + 25
         
         self.view.addSubview(salarySlider)
-        salarySlider.widthAnchor == fieldWidth
+        salarySlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
         salarySlider.heightAnchor == fieldHeight
         salarySlider.centerXAnchor == self.view.centerXAnchor
-        salarySlider.topAnchor == salaryLabel.bottomAnchor + 25
+        salarySlider.topAnchor == salaryValueLabel.bottomAnchor - 25
         salarySlider.isContinuous = true
         salarySlider.minimumValue = 0
-        salarySlider.maximumValue = 1_000_000
+        salarySlider.maximumValue = 250_000
         salarySlider.value = 20_000
         salarySlider.addTarget(self, action: #selector(sliderValueDidChange(sender:)),for: .valueChanged)
-//        salaryLabel.text = "\(salarySlider.value)"
-        salaryLabel.text = someFormatter.string(from: NSNumber(value: salarySlider.value))
+        salaryValueLabel.text = (currencyFormatter.string(from: NSNumber(value: salarySlider.value)) ?? "0.00") + " /yr"
         
         self.view.addSubview(salaryField)
         salaryField.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
@@ -147,13 +159,26 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
     
     @objc func sliderValueDidChange(sender: UISlider!) {
-        print("salary value: \(sender.value)")
-//        salaryLabel.text = "\(sender.value)"
-        salaryLabel.text = someFormatter.string(from: NSNumber(value: salarySlider.value))
+        let roundedValue = (round(sender.value / 5000) * 5000)
+        let formattedValue = currencyFormatter.string(from: NSNumber(value: roundedValue)) ?? "0.00"
+        let stringToDisplay = formattedValue
+        salarySlider.value = roundedValue //setting the value of the slider here so it's not some precise number
+        salaryValueLabel.text = stringToDisplay + " /yr"
+        
+        calculateMorgate()
+    }
+    
+    func calculateMorgate() {
+        let salary = salarySlider.value
+        let carPayment = Float(carPaymentField.text ?? "0") ?? 0
+        let additionalPayments = Float(additionalPaymentsField.text ?? "0") ?? 0
+        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 3.5
+        let formattedSum = currencyFormatter.string(from: NSNumber(value: sum)) ?? "0.00"
+        estimatedMortgage.text = formattedSum
     }
     
     @objc func calcTapped(sender: UIButton) {
-        let salary = Float(salaryField.text ?? "0") ?? 0
+        let salary = salarySlider.value
         let carPayment = Float(carPaymentField.text ?? "0") ?? 0
         let additionalPayments = Float(additionalPaymentsField.text ?? "0") ?? 0
         
