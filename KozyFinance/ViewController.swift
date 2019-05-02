@@ -11,6 +11,7 @@ import Anchorage
 
 class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
 
+    var mortgageText = UILabel()
     var estimatedMortgage = UILabel()
     var carPaymentField = UITextField()
     var additionalPaymentsField = UITextField()
@@ -63,6 +64,16 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let cornerRadius = CGFloat(5.0)
 //        let numKeyboard = UIKeyboardType.decimalPad
         
+        self.view.addSubview(mortgageText)
+        mortgageText.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
+        mortgageText.layer.cornerRadius = cornerRadius
+        mortgageText.text = "You may qualify for a home up to:"
+        mortgageText.textAlignment = .center
+        mortgageText.widthAnchor == fieldWidth
+        mortgageText.heightAnchor == 25
+        mortgageText.centerXAnchor == self.view.centerXAnchor
+        mortgageText.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
+        
         self.view.addSubview(estimatedMortgage)
         estimatedMortgage.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         estimatedMortgage.layer.cornerRadius = cornerRadius
@@ -71,7 +82,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         estimatedMortgage.widthAnchor == fieldWidth
         estimatedMortgage.heightAnchor == fieldHeight
         estimatedMortgage.centerXAnchor == self.view.centerXAnchor
-        estimatedMortgage.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
+        estimatedMortgage.topAnchor == mortgageText.bottomAnchor
         
         self.view.addSubview(salaryTitle)
         salaryTitle.text = "Income"
