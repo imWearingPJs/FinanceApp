@@ -140,7 +140,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         additionalPaymentTitle.layer.cornerRadius = cornerRadius
         additionalPaymentTitle.textAlignment = .left
-        additionalPaymentTitle.widthAnchor == valueWidth
         additionalPaymentTitle.heightAnchor == fieldHeight
         additionalPaymentTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
         additionalPaymentTitle.topAnchor == carPaymentSlider.bottomAnchor + 25
@@ -149,6 +148,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentValueLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         additionalPaymentValueLabel.layer.cornerRadius = cornerRadius
         additionalPaymentValueLabel.textAlignment = .right
+        additionalPaymentValueLabel.widthAnchor == valueWidth
         additionalPaymentValueLabel.heightAnchor == fieldHeight
         additionalPaymentValueLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
         additionalPaymentValueLabel.topAnchor == carPaymentSlider.bottomAnchor + 25
@@ -200,7 +200,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let additionalPayments = additionalPaymentSlider.value
         let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 3.5
         let formattedSum = currencyFormatter.string(from: NSNumber(value: sum)) ?? "0.00"
-        estimatedMortgage.text = formattedSum
+        
+        if sum > 0.0 {
+            estimatedMortgage.text = formattedSum
+        } else {
+            estimatedMortgage.text = "$0.00"
+        }
     }
     
     @objc func calcTapped(sender: UIButton) {
@@ -210,7 +215,11 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         
         let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 3.5
         
-        estimatedMortgage.text = "$\(sum)"
+        if sum >= 0 {
+            estimatedMortgage.text = "$\(sum)"
+        } else {
+            estimatedMortgage.text = "$0.00"
+        }
     }
     
     @objc func resetTapped(sender: UIButton) {
