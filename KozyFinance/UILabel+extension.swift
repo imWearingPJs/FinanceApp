@@ -7,10 +7,18 @@
 //
 
 import UIKit
-import Anchorage
 
 extension UILabel {
-    func setInputFields() {
-
+    func setQualifiedAmountFont() {
+        self.font = UIFont(name: "Arial-BoldMT", size: 25)
+    }
+    
+    func setTitleFont() {
+        self.font = UIFont(name: "Arial", size: 18)
+//        self.adjustsFontSizeToFitWidth = true
+    }
+    
+    func setValueFont() {
+        self.font = UIFont(name: "Arial", size: 18)
     }
 }

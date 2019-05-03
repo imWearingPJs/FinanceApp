@@ -74,8 +74,8 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         currencyFormatter.usesGroupingSeparator = true
         currencyFormatter.numberStyle = .currency
         
-        let fieldWidth = self.view.widthAnchor * 0.8
-        let valueWidth = self.view.widthAnchor * 0.3
+        let fieldWidth = self.view.widthAnchor * 0.5
+        let valueWidth = self.view.widthAnchor * 0.5
         let fieldHeight = 50.0
         let cornerRadius = CGFloat(5.0)
 //        let numKeyboard = UIKeyboardType.decimalPad
@@ -84,14 +84,15 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         mortgageText.layer.cornerRadius = cornerRadius
         mortgageText.text = "You may qualify for a home up to:"
         mortgageText.textAlignment = .center
-        mortgageText.widthAnchor == fieldWidth
+        mortgageText.widthAnchor <= self.view.safeAreaLayoutGuide.widthAnchor + 10
         mortgageText.heightAnchor == 25
-        mortgageText.centerXAnchor == self.view.centerXAnchor
+        mortgageText.centerXAnchor == self.view.safeAreaLayoutGuide.centerXAnchor
         mortgageText.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
         
         self.view.addSubview(estimatedMortgage)
         estimatedMortgage.layer.cornerRadius = cornerRadius
         estimatedMortgage.text = "$0"
+        estimatedMortgage.setQualifiedAmountFont()
         estimatedMortgage.textAlignment = .center
         estimatedMortgage.widthAnchor == fieldWidth
         estimatedMortgage.heightAnchor == fieldHeight
@@ -99,6 +100,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         estimatedMortgage.topAnchor == mortgageText.bottomAnchor
         
         self.view.addSubview(salaryTitle)
+        salaryTitle.setTitleFont()
         salaryTitle.text = "Income"
         salaryTitle.layer.cornerRadius = cornerRadius
         salaryTitle.textAlignment = .left
@@ -108,6 +110,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salaryTitle.topAnchor == estimatedMortgage.bottomAnchor + 25
         
         self.view.addSubview(salaryValueLabel)
+        salaryValueLabel.setValueFont()
         salaryValueLabel.layer.cornerRadius = cornerRadius
         salaryValueLabel.textAlignment = .right
         salaryValueLabel.widthAnchor == valueWidth
@@ -128,6 +131,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salaryValueLabel.text = (currencyFormatter.string(from: NSNumber(value: salarySlider.value)) ?? "0.00") + " /yr"
         
         self.view.addSubview(carPaymentTitle)
+        carPaymentTitle.setTitleFont()
         carPaymentTitle.text = "Car Payment"
         carPaymentTitle.layer.cornerRadius = cornerRadius
         carPaymentTitle.textAlignment = .left
@@ -137,6 +141,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         carPaymentTitle.topAnchor == salarySlider.bottomAnchor + 25
         
         self.view.addSubview(carPaymentValueLabel)
+        carPaymentValueLabel.setValueFont()
         carPaymentValueLabel.layer.cornerRadius = cornerRadius
         carPaymentValueLabel.textAlignment = .right
         carPaymentValueLabel.widthAnchor == valueWidth
@@ -157,6 +162,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         carPaymentValueLabel.text = (currencyFormatter.string(from: NSNumber(value: carPaymentSlider.value)) ?? "0.00") + " /mo"
         
         self.view.addSubview(additionalPaymentTitle)
+        additionalPaymentTitle.setTitleFont()
         additionalPaymentTitle.text = "Additional Monthly Debt"
         additionalPaymentTitle.layer.cornerRadius = cornerRadius
         additionalPaymentTitle.textAlignment = .left
@@ -165,6 +171,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentTitle.topAnchor == carPaymentSlider.bottomAnchor + 25
         
         self.view.addSubview(additionalPaymentValueLabel)
+        additionalPaymentValueLabel.setValueFont()
         additionalPaymentValueLabel.layer.cornerRadius = cornerRadius
         additionalPaymentValueLabel.textAlignment = .right
         additionalPaymentValueLabel.widthAnchor == valueWidth
@@ -185,6 +192,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentValueLabel.text = (currencyFormatter.string(from: NSNumber(value: additionalPaymentSlider.value)) ?? "0.00") + " /mo"
         
         self.view.addSubview(interestRateTitle)
+        interestRateTitle.setTitleFont()
         interestRateTitle.text = "Interest Rate"
         interestRateTitle.layer.cornerRadius = cornerRadius
         interestRateTitle.textAlignment = .left
@@ -193,6 +201,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         interestRateTitle.topAnchor == additionalPaymentSlider.bottomAnchor + 25
 
         self.view.addSubview(interestRateLabel)
+        interestRateLabel.setValueFont()
         interestRateLabel.layer.cornerRadius = cornerRadius
         interestRateLabel.textAlignment = .right
         interestRateLabel.widthAnchor == valueWidth
@@ -213,6 +222,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         interestRateLabel.text = (percentFormatter.string(from: NSNumber(value: interestRateSlider.value)) ?? "0.00")
         
         self.view.addSubview(lengthTitle)
+        lengthTitle.setTitleFont()
         lengthTitle.text = "Length of Mortgage"
         lengthTitle.layer.cornerRadius = cornerRadius
         lengthTitle.textAlignment = .left
@@ -221,6 +231,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         lengthTitle.topAnchor == interestRateSlider.bottomAnchor + 25
         
         self.view.addSubview(lengthLabel)
+        lengthLabel.setValueFont()
         lengthLabel.layer.cornerRadius = cornerRadius
         lengthLabel.textAlignment = .right
         lengthLabel.widthAnchor == valueWidth
