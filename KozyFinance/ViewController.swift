@@ -81,7 +81,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
 //        let numKeyboard = UIKeyboardType.decimalPad
         
         self.view.addSubview(mortgageText)
-        mortgageText.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         mortgageText.layer.cornerRadius = cornerRadius
         mortgageText.text = "You may qualify for a home up to:"
         mortgageText.textAlignment = .center
@@ -91,7 +90,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         mortgageText.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
         
         self.view.addSubview(estimatedMortgage)
-        estimatedMortgage.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         estimatedMortgage.layer.cornerRadius = cornerRadius
         estimatedMortgage.text = "$0"
         estimatedMortgage.textAlignment = .center
@@ -102,7 +100,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         
         self.view.addSubview(salaryTitle)
         salaryTitle.text = "Income"
-        salaryTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         salaryTitle.layer.cornerRadius = cornerRadius
         salaryTitle.textAlignment = .left
         salaryTitle.widthAnchor == valueWidth
@@ -111,7 +108,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salaryTitle.topAnchor == estimatedMortgage.bottomAnchor + 25
         
         self.view.addSubview(salaryValueLabel)
-        salaryValueLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         salaryValueLabel.layer.cornerRadius = cornerRadius
         salaryValueLabel.textAlignment = .right
         salaryValueLabel.widthAnchor == valueWidth
@@ -127,13 +123,12 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salarySlider.isContinuous = true
         salarySlider.minimumValue = 0
         salarySlider.maximumValue = 250_000
-        salarySlider.value = 20_000
+        salarySlider.value = 0
         salarySlider.addTarget(self, action: #selector(salarySliderValueDidChange(sender:)),for: .valueChanged)
         salaryValueLabel.text = (currencyFormatter.string(from: NSNumber(value: salarySlider.value)) ?? "0.00") + " /yr"
         
         self.view.addSubview(carPaymentTitle)
         carPaymentTitle.text = "Car Payment"
-        carPaymentTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         carPaymentTitle.layer.cornerRadius = cornerRadius
         carPaymentTitle.textAlignment = .left
         carPaymentTitle.widthAnchor == valueWidth
@@ -142,7 +137,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         carPaymentTitle.topAnchor == salarySlider.bottomAnchor + 25
         
         self.view.addSubview(carPaymentValueLabel)
-        carPaymentValueLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         carPaymentValueLabel.layer.cornerRadius = cornerRadius
         carPaymentValueLabel.textAlignment = .right
         carPaymentValueLabel.widthAnchor == valueWidth
@@ -164,7 +158,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         
         self.view.addSubview(additionalPaymentTitle)
         additionalPaymentTitle.text = "Additional Monthly Debt"
-        additionalPaymentTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         additionalPaymentTitle.layer.cornerRadius = cornerRadius
         additionalPaymentTitle.textAlignment = .left
         additionalPaymentTitle.heightAnchor == fieldHeight
@@ -172,7 +165,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentTitle.topAnchor == carPaymentSlider.bottomAnchor + 25
         
         self.view.addSubview(additionalPaymentValueLabel)
-        additionalPaymentValueLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         additionalPaymentValueLabel.layer.cornerRadius = cornerRadius
         additionalPaymentValueLabel.textAlignment = .right
         additionalPaymentValueLabel.widthAnchor == valueWidth
@@ -194,7 +186,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         
         self.view.addSubview(interestRateTitle)
         interestRateTitle.text = "Interest Rate"
-        interestRateTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         interestRateTitle.layer.cornerRadius = cornerRadius
         interestRateTitle.textAlignment = .left
         interestRateTitle.heightAnchor == fieldHeight
@@ -202,7 +193,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         interestRateTitle.topAnchor == additionalPaymentSlider.bottomAnchor + 25
 
         self.view.addSubview(interestRateLabel)
-        interestRateLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         interestRateLabel.layer.cornerRadius = cornerRadius
         interestRateLabel.textAlignment = .right
         interestRateLabel.widthAnchor == valueWidth
@@ -224,7 +214,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         
         self.view.addSubview(lengthTitle)
         lengthTitle.text = "Length of Mortgage"
-        lengthTitle.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         lengthTitle.layer.cornerRadius = cornerRadius
         lengthTitle.textAlignment = .left
         lengthTitle.heightAnchor == fieldHeight
@@ -232,7 +221,6 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         lengthTitle.topAnchor == interestRateSlider.bottomAnchor + 25
         
         self.view.addSubview(lengthLabel)
-        lengthLabel.backgroundColor = #colorLiteral(red: 0, green: 0.9914394021, blue: 1, alpha: 1)
         lengthLabel.layer.cornerRadius = cornerRadius
         lengthLabel.textAlignment = .right
         lengthLabel.widthAnchor == valueWidth
@@ -317,7 +305,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let carPayment = Float(carPaymentField.text ?? "0") ?? 0
         let additionalPayments = Float(additionalPaymentsField.text ?? "0") ?? 0
         
-        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 3.5
+        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 2.5
         
         if sum >= 0 {
             estimatedMortgage.text = "$\(sum)"
