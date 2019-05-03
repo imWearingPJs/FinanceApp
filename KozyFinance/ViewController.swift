@@ -290,7 +290,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let salary = salarySlider.value
         let carPayment = carPaymentSlider.value
         let additionalPayments = additionalPaymentSlider.value
-        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 3.5
+        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 4.0
         let formattedSum = currencyFormatter.string(from: NSNumber(value: sum)) ?? "0.00"
         
         if sum > 0.0 {
@@ -305,7 +305,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         let carPayment = Float(carPaymentField.text ?? "0") ?? 0
         let additionalPayments = Float(additionalPaymentsField.text ?? "0") ?? 0
         
-        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 2.5
+        let sum = (salary - (carPayment * 12) - (additionalPayments * 12)) * 4.0
         
         if sum >= 0 {
             estimatedMortgage.text = "$\(sum)"
