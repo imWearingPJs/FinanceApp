@@ -9,7 +9,7 @@
 import UIKit
 import Anchorage
 
-class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
+class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate, UIScrollViewDelegate {
 
     var mortgageText = UILabel()
     var estimatedMortgage = UILabel()
@@ -37,6 +37,13 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     let lengthTitle = UILabel()
     let lengthLabel = UILabel()
     let lengthSlider = CustomSlider()
+    
+    let scrollView: UIScrollView = {
+        let sv = UIScrollView()
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        sv.backgroundColor = .cyan
+        return sv
+    }()
     
     let currencyFormatter: NumberFormatter = {
         let temp = NumberFormatter()
@@ -70,58 +77,58 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
     }
 
     func addViews() {
-        let currencyFormatter = NumberFormatter()
-        currencyFormatter.usesGroupingSeparator = true
-        currencyFormatter.numberStyle = .currency
         
-        let fieldWidth = self.view.widthAnchor * 0.5
-        let valueWidth = self.view.widthAnchor * 0.5
+        self.view.addSubview(scrollView)
+        scrollView.verticalAnchors == view.safeAreaLayoutGuide.verticalAnchors
+        scrollView.horizontalAnchors == view.safeAreaLayoutGuide.horizontalAnchors
+        
+        let fieldWidth = scrollView.widthAnchor * 0.5
+        let valueWidth = scrollView.widthAnchor * 0.5
         let fieldHeight = 50.0
         let cornerRadius = CGFloat(5.0)
-//        let numKeyboard = UIKeyboardType.decimalPad
         
-        self.view.addSubview(mortgageText)
+        scrollView.addSubview(mortgageText)
         mortgageText.layer.cornerRadius = cornerRadius
         mortgageText.text = "You may qualify for a home up to:"
         mortgageText.textAlignment = .center
-        mortgageText.widthAnchor <= self.view.safeAreaLayoutGuide.widthAnchor + 10
+        mortgageText.widthAnchor <= scrollView.widthAnchor + 10
         mortgageText.heightAnchor == 25
-        mortgageText.centerXAnchor == self.view.safeAreaLayoutGuide.centerXAnchor
-        mortgageText.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
+        mortgageText.centerXAnchor == scrollView.centerXAnchor
+        mortgageText.topAnchor == scrollView.topAnchor + 20
         
-        self.view.addSubview(estimatedMortgage)
+        scrollView.addSubview(estimatedMortgage)
         estimatedMortgage.layer.cornerRadius = cornerRadius
         estimatedMortgage.text = "$0"
         estimatedMortgage.setQualifiedAmountFont()
         estimatedMortgage.textAlignment = .center
         estimatedMortgage.widthAnchor == fieldWidth
         estimatedMortgage.heightAnchor == fieldHeight
-        estimatedMortgage.centerXAnchor == self.view.centerXAnchor
+        estimatedMortgage.centerXAnchor == scrollView.centerXAnchor
         estimatedMortgage.topAnchor == mortgageText.bottomAnchor
         
-        self.view.addSubview(salaryTitle)
+        scrollView.addSubview(salaryTitle)
         salaryTitle.setTitleFont()
         salaryTitle.text = "Income"
         salaryTitle.layer.cornerRadius = cornerRadius
         salaryTitle.textAlignment = .left
         salaryTitle.widthAnchor == valueWidth
         salaryTitle.heightAnchor == fieldHeight
-        salaryTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        salaryTitle.leftAnchor == scrollView.safeAreaLayoutGuide.leftAnchor + 25
         salaryTitle.topAnchor == estimatedMortgage.bottomAnchor + 25
         
-        self.view.addSubview(salaryValueLabel)
+        scrollView.addSubview(salaryValueLabel)
         salaryValueLabel.setValueFont()
         salaryValueLabel.layer.cornerRadius = cornerRadius
         salaryValueLabel.textAlignment = .right
         salaryValueLabel.widthAnchor == valueWidth
         salaryValueLabel.heightAnchor == fieldHeight
-        salaryValueLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        salaryValueLabel.rightAnchor == scrollView.safeAreaLayoutGuide.rightAnchor - 25
         salaryValueLabel.topAnchor == estimatedMortgage.bottomAnchor + 25
         
-        self.view.addSubview(salarySlider)
-        salarySlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        scrollView.addSubview(salarySlider)
+        salarySlider.widthAnchor == scrollView.safeAreaLayoutGuide.widthAnchor - 50
         salarySlider.heightAnchor == fieldHeight
-        salarySlider.centerXAnchor == self.view.centerXAnchor
+        salarySlider.centerXAnchor == scrollView.centerXAnchor
         salarySlider.topAnchor == salaryValueLabel.bottomAnchor - 25
         salarySlider.isContinuous = true
         salarySlider.minimumValue = 0
@@ -130,29 +137,29 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salarySlider.addTarget(self, action: #selector(salarySliderValueDidChange(sender:)),for: .valueChanged)
         salaryValueLabel.text = (currencyFormatter.string(from: NSNumber(value: salarySlider.value)) ?? "0.00") + " /yr"
         
-        self.view.addSubview(carPaymentTitle)
+        scrollView.addSubview(carPaymentTitle)
         carPaymentTitle.setTitleFont()
         carPaymentTitle.text = "Car Payment"
         carPaymentTitle.layer.cornerRadius = cornerRadius
         carPaymentTitle.textAlignment = .left
         carPaymentTitle.widthAnchor == valueWidth
         carPaymentTitle.heightAnchor == fieldHeight
-        carPaymentTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        carPaymentTitle.leftAnchor == scrollView.safeAreaLayoutGuide.leftAnchor + 25
         carPaymentTitle.topAnchor == salarySlider.bottomAnchor + 25
         
-        self.view.addSubview(carPaymentValueLabel)
+        scrollView.addSubview(carPaymentValueLabel)
         carPaymentValueLabel.setValueFont()
         carPaymentValueLabel.layer.cornerRadius = cornerRadius
         carPaymentValueLabel.textAlignment = .right
         carPaymentValueLabel.widthAnchor == valueWidth
         carPaymentValueLabel.heightAnchor == fieldHeight
-        carPaymentValueLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        carPaymentValueLabel.rightAnchor == scrollView.safeAreaLayoutGuide.rightAnchor - 25
         carPaymentValueLabel.topAnchor == salarySlider.bottomAnchor + 25
         
-        self.view.addSubview(carPaymentSlider)
-        carPaymentSlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        scrollView.addSubview(carPaymentSlider)
+        carPaymentSlider.widthAnchor == scrollView.safeAreaLayoutGuide.widthAnchor - 50
         carPaymentSlider.heightAnchor == fieldHeight
-        carPaymentSlider.centerXAnchor == self.view.centerXAnchor
+        carPaymentSlider.centerXAnchor == scrollView.centerXAnchor
         carPaymentSlider.topAnchor == carPaymentValueLabel.bottomAnchor - 25
         carPaymentSlider.isContinuous = true
         carPaymentSlider.minimumValue = 0
@@ -161,28 +168,28 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         carPaymentSlider.addTarget(self, action: #selector(carPaymentSliderValueDidChange(sender:)),for: .valueChanged)
         carPaymentValueLabel.text = (currencyFormatter.string(from: NSNumber(value: carPaymentSlider.value)) ?? "0.00") + " /mo"
         
-        self.view.addSubview(additionalPaymentTitle)
+        scrollView.addSubview(additionalPaymentTitle)
         additionalPaymentTitle.setTitleFont()
         additionalPaymentTitle.text = "Additional Monthly Debt"
         additionalPaymentTitle.layer.cornerRadius = cornerRadius
         additionalPaymentTitle.textAlignment = .left
         additionalPaymentTitle.heightAnchor == fieldHeight
-        additionalPaymentTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        additionalPaymentTitle.leftAnchor == scrollView.leftAnchor + 25
         additionalPaymentTitle.topAnchor == carPaymentSlider.bottomAnchor + 25
         
-        self.view.addSubview(additionalPaymentValueLabel)
+        scrollView.addSubview(additionalPaymentValueLabel)
         additionalPaymentValueLabel.setValueFont()
         additionalPaymentValueLabel.layer.cornerRadius = cornerRadius
         additionalPaymentValueLabel.textAlignment = .right
         additionalPaymentValueLabel.widthAnchor == valueWidth
         additionalPaymentValueLabel.heightAnchor == fieldHeight
-        additionalPaymentValueLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        additionalPaymentValueLabel.rightAnchor == scrollView.rightAnchor - 25
         additionalPaymentValueLabel.topAnchor == carPaymentSlider.bottomAnchor + 25
         
-        self.view.addSubview(additionalPaymentSlider)
-        additionalPaymentSlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        scrollView.addSubview(additionalPaymentSlider)
+        additionalPaymentSlider.widthAnchor == scrollView.widthAnchor - 50
         additionalPaymentSlider.heightAnchor == fieldHeight
-        additionalPaymentSlider.centerXAnchor == self.view.centerXAnchor
+        additionalPaymentSlider.centerXAnchor == scrollView.centerXAnchor
         additionalPaymentSlider.topAnchor == additionalPaymentValueLabel.bottomAnchor - 25
         additionalPaymentSlider.isContinuous = true
         additionalPaymentSlider.minimumValue = 0
@@ -191,28 +198,28 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentSlider.addTarget(self, action: #selector(additionalPaymentsSliderValueDidChange(sender:)),for: .valueChanged)
         additionalPaymentValueLabel.text = (currencyFormatter.string(from: NSNumber(value: additionalPaymentSlider.value)) ?? "0.00") + " /mo"
         
-        self.view.addSubview(interestRateTitle)
+        scrollView.addSubview(interestRateTitle)
         interestRateTitle.setTitleFont()
         interestRateTitle.text = "Interest Rate"
         interestRateTitle.layer.cornerRadius = cornerRadius
         interestRateTitle.textAlignment = .left
         interestRateTitle.heightAnchor == fieldHeight
-        interestRateTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        interestRateTitle.leftAnchor == scrollView.leftAnchor + 25
         interestRateTitle.topAnchor == additionalPaymentSlider.bottomAnchor + 25
 
-        self.view.addSubview(interestRateLabel)
+        scrollView.addSubview(interestRateLabel)
         interestRateLabel.setValueFont()
         interestRateLabel.layer.cornerRadius = cornerRadius
         interestRateLabel.textAlignment = .right
         interestRateLabel.widthAnchor == valueWidth
         interestRateLabel.heightAnchor == fieldHeight
-        interestRateLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        interestRateLabel.rightAnchor == scrollView.rightAnchor - 25
         interestRateLabel.topAnchor == additionalPaymentSlider.bottomAnchor + 25
 
-        self.view.addSubview(interestRateSlider)
-        interestRateSlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        scrollView.addSubview(interestRateSlider)
+        interestRateSlider.widthAnchor == scrollView.widthAnchor - 50
         interestRateSlider.heightAnchor == fieldHeight
-        interestRateSlider.centerXAnchor == self.view.centerXAnchor
+        interestRateSlider.centerXAnchor == scrollView.centerXAnchor
         interestRateSlider.topAnchor == interestRateTitle.bottomAnchor - 25
         interestRateSlider.isContinuous = true
         interestRateSlider.minimumValue = 0.02
@@ -221,29 +228,30 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         interestRateSlider.addTarget(self, action: #selector(interestRateSliderValueDidChange(sender:)),for: .valueChanged)
         interestRateLabel.text = (percentFormatter.string(from: NSNumber(value: interestRateSlider.value)) ?? "0.00")
         
-        self.view.addSubview(lengthTitle)
+        scrollView.addSubview(lengthTitle)
         lengthTitle.setTitleFont()
         lengthTitle.text = "Length of Mortgage"
         lengthTitle.layer.cornerRadius = cornerRadius
         lengthTitle.textAlignment = .left
         lengthTitle.heightAnchor == fieldHeight
-        lengthTitle.leftAnchor == self.view.safeAreaLayoutGuide.leftAnchor + 25
+        lengthTitle.leftAnchor == scrollView.leftAnchor + 25
         lengthTitle.topAnchor == interestRateSlider.bottomAnchor + 25
         
-        self.view.addSubview(lengthLabel)
+        scrollView.addSubview(lengthLabel)
         lengthLabel.setValueFont()
         lengthLabel.layer.cornerRadius = cornerRadius
         lengthLabel.textAlignment = .right
         lengthLabel.widthAnchor == valueWidth
         lengthLabel.heightAnchor == fieldHeight
-        lengthLabel.rightAnchor == self.view.safeAreaLayoutGuide.rightAnchor - 25
+        lengthLabel.rightAnchor == scrollView.rightAnchor - 25
         lengthLabel.topAnchor == interestRateSlider.bottomAnchor + 25
 
-        self.view.addSubview(lengthSlider)
-        lengthSlider.widthAnchor == self.view.safeAreaLayoutGuide.widthAnchor - 50
+        scrollView.addSubview(lengthSlider)
+        lengthSlider.widthAnchor == scrollView.widthAnchor - 50
         lengthSlider.heightAnchor == fieldHeight
-        lengthSlider.centerXAnchor == self.view.centerXAnchor
+        lengthSlider.centerXAnchor == scrollView.centerXAnchor
         lengthSlider.topAnchor == lengthTitle.bottomAnchor - 25
+        lengthSlider.bottomAnchor == scrollView.bottomAnchor - 10
         lengthSlider.isContinuous = true
         lengthSlider.minimumValue = 1
         lengthSlider.maximumValue = 30
