@@ -78,33 +78,34 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
 
     func addViews() {
         
-        self.view.addSubview(scrollView)
-        scrollView.verticalAnchors == view.safeAreaLayoutGuide.verticalAnchors
-        scrollView.horizontalAnchors == view.safeAreaLayoutGuide.horizontalAnchors
-        
-        let fieldWidth = scrollView.widthAnchor * 0.5
+        let fieldWidth = self.view.widthAnchor * 0.5
         let valueWidth = scrollView.widthAnchor * 0.5
         let fieldHeight = 50.0
         let cornerRadius = CGFloat(5.0)
         
-        scrollView.addSubview(mortgageText)
+        self.view.addSubview(mortgageText)
         mortgageText.layer.cornerRadius = cornerRadius
         mortgageText.text = "You may qualify for a home up to:"
         mortgageText.textAlignment = .center
-        mortgageText.widthAnchor <= scrollView.widthAnchor + 10
+        mortgageText.widthAnchor <= self.view.widthAnchor + 10
         mortgageText.heightAnchor == 25
-        mortgageText.centerXAnchor == scrollView.centerXAnchor
-        mortgageText.topAnchor == scrollView.topAnchor + 20
+        mortgageText.centerXAnchor == self.view.centerXAnchor
+        mortgageText.topAnchor == self.view.safeAreaLayoutGuide.topAnchor + 20
         
-        scrollView.addSubview(estimatedMortgage)
+        self.view.addSubview(estimatedMortgage)
         estimatedMortgage.layer.cornerRadius = cornerRadius
         estimatedMortgage.text = "$0"
         estimatedMortgage.setQualifiedAmountFont()
         estimatedMortgage.textAlignment = .center
         estimatedMortgage.widthAnchor == fieldWidth
         estimatedMortgage.heightAnchor == fieldHeight
-        estimatedMortgage.centerXAnchor == scrollView.centerXAnchor
+        estimatedMortgage.centerXAnchor == self.view.centerXAnchor
         estimatedMortgage.topAnchor == mortgageText.bottomAnchor
+        
+        self.view.addSubview(scrollView)
+        scrollView.topAnchor == estimatedMortgage.bottomAnchor + 10
+        scrollView.bottomAnchor == view.safeAreaLayoutGuide.bottomAnchor - 10
+        scrollView.horizontalAnchors == view.safeAreaLayoutGuide.horizontalAnchors + 10
         
         scrollView.addSubview(salaryTitle)
         salaryTitle.setTitleFont()
@@ -114,7 +115,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salaryTitle.widthAnchor == valueWidth
         salaryTitle.heightAnchor == fieldHeight
         salaryTitle.leftAnchor == scrollView.safeAreaLayoutGuide.leftAnchor + 25
-        salaryTitle.topAnchor == estimatedMortgage.bottomAnchor + 25
+        salaryTitle.topAnchor == scrollView.topAnchor + 25
         
         scrollView.addSubview(salaryValueLabel)
         salaryValueLabel.setValueFont()
@@ -123,7 +124,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         salaryValueLabel.widthAnchor == valueWidth
         salaryValueLabel.heightAnchor == fieldHeight
         salaryValueLabel.rightAnchor == scrollView.safeAreaLayoutGuide.rightAnchor - 25
-        salaryValueLabel.topAnchor == estimatedMortgage.bottomAnchor + 25
+        salaryValueLabel.topAnchor == scrollView.topAnchor + 25
         
         scrollView.addSubview(salarySlider)
         salarySlider.widthAnchor == scrollView.safeAreaLayoutGuide.widthAnchor - 50
@@ -183,7 +184,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         additionalPaymentValueLabel.textAlignment = .right
         additionalPaymentValueLabel.widthAnchor == valueWidth
         additionalPaymentValueLabel.heightAnchor == fieldHeight
-        additionalPaymentValueLabel.rightAnchor == scrollView.rightAnchor - 25
+        additionalPaymentValueLabel.rightAnchor == scrollView.safeAreaLayoutGuide.rightAnchor - 25
         additionalPaymentValueLabel.topAnchor == carPaymentSlider.bottomAnchor + 25
         
         scrollView.addSubview(additionalPaymentSlider)
@@ -213,7 +214,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         interestRateLabel.textAlignment = .right
         interestRateLabel.widthAnchor == valueWidth
         interestRateLabel.heightAnchor == fieldHeight
-        interestRateLabel.rightAnchor == scrollView.rightAnchor - 25
+        interestRateLabel.rightAnchor == scrollView.safeAreaLayoutGuide.rightAnchor - 25
         interestRateLabel.topAnchor == additionalPaymentSlider.bottomAnchor + 25
 
         scrollView.addSubview(interestRateSlider)
@@ -243,7 +244,7 @@ class ViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizer
         lengthLabel.textAlignment = .right
         lengthLabel.widthAnchor == valueWidth
         lengthLabel.heightAnchor == fieldHeight
-        lengthLabel.rightAnchor == scrollView.rightAnchor - 25
+        lengthLabel.rightAnchor == scrollView.safeAreaLayoutGuide.rightAnchor - 25
         lengthLabel.topAnchor == interestRateSlider.bottomAnchor + 25
 
         scrollView.addSubview(lengthSlider)
